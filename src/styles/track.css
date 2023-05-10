@@ -1,0 +1,27 @@
+.track{
+  float:left;
+  align-items: center;
+  margin: 1rem;
+  padding: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #f50d0d;
+  border-radius: 10px;
+  background-color: #633d37;
+}
+
+.cover{
+  height: 200px;
+  width: 200px;
+}
+
+.track:hover,
+.track:focus,
+.track:active
+{
+    color: #0070f3;
+    border-color: #0070f3;
+    background-color: #939c3b;
+    border: 1px solid #dcec4a;
+    padding: 1.8rem;
+}
