@@ -34,7 +34,7 @@ export default function Home() {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelected(event.target.value);
     console.log(selected);
     getTracksFromPlayList();
@@ -45,7 +45,6 @@ export default function Home() {
       setLoading(true);
       const res = await fetch(`${apiUrl}/idlist/${selected}`);
       const tracks = await res.json();
-      setTracks('');
       setTracks(tracks);
       setLoading(false);
     } catch (error) {

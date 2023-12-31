@@ -15,7 +15,7 @@ export const getUsersPlaylists = async (refresh_token: string,name:string): Prom
     spotify.setAccessToken(access_token);
     const { items } = await spotify.playlists.getUserPlaylists(name,{limit:50,});
     return items;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     throw new Error('Error al obtener las playlists del usuario:=> ' + error.response.data.error_description);
   }
@@ -27,7 +27,7 @@ export const getPlaylistTracks = async (refresh_token: string, idlist: string): 
     spotify.setAccessToken(access_token);
     const { items } = await spotify.playlists.getPlaylistItems(idlist);
     return items;
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
     throw new Error('Error al obtener las canciones de la playlist:==>' + error.response.error_description);
   }
