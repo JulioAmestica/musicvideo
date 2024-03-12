@@ -11,7 +11,7 @@ export default function TrackControl(props: trackControlProps) {
         <>
           <div className="spotify-playlist">
             <div id={props.id} >
-              <img src={props.track.album.images[1].url}  alt={props.track.name} />
+              <img src={props.track.album.images[1].url} alt={props.track.name} />
               <p>{props.track.name}</p>
               <p>{props.track.popularity}</p>
               <div>{props.track.artists[0].name}</div>

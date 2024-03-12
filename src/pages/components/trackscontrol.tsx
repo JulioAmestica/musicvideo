@@ -1,4 +1,6 @@
+import React, { Component } from 'react'
 import TrackControl from "./trackcontrol"
+
 export default function TracksControl(props: tracksControlProps) {
   if (props.tracks == null) {
     return (
