@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
@@ -58,6 +59,21 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Explora tus playlists | MusicVideo</title>
+        <meta
+          name="description"
+          content="Inicia sesión con Spotify y explora tus playlists con una interfaz visual y fluida en MusicVideo."
+        />
+        <meta property="og:title" content="Explora tus playlists | MusicVideo" />
+        <meta
+          property="og:description"
+          content="Accede a tus playlists, navega y descubre canciones con MusicVideo."
+        />
+        <meta property="og:url" content="https://mymusicvideo.netlify.app/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
       <div className="sidebar">
         <div className="logo">
           <Link href="/">
@@ -84,10 +100,10 @@ export default function Home() {
         <div className="policies">
           <ul>
             <li>
-              <a href="#">Cookies</a>
+              <button type="button" className="nav-button muted">Cookies</button>
             </li>
             <li>
-              <a href="#">Privacy</a>
+              <button type="button" className="nav-button muted">Privacy</button>
             </li>
           </ul>
         </div>

@@ -1,7 +1,8 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Loading from './components/loading';
 import { Track } from 'spotify-web-api-ts/types/types/SpotifyObjects';
 import TrackControl from './components/trackcontrol';
@@ -12,39 +13,42 @@ export default function Tracks() {
   const [tracks, setTracks] = useState<Track[]>();
   const [isLoading, setLoading] = useState(false);
   const [playlistName, setPlaylistName] = useState<string | undefined>();
-
-  const getTracksFromPlayList = useCallback(async () => {
-    try {
-      const searchParams = new URLSearchParams(document.location.search)
-      const Listid = searchParams.get('Listid');
-      const listName = searchParams.get('name');
-      if (listName) {
-        setPlaylistName(decodeURIComponent(listName));
-      }
-      setLoading(true);
-      if (Listid === null) {
-        setLoading(false);
-        return;
-      }
-      const res = await fetch(`${apiUrl}/idlist/${Listid}`);
-      const { tracks } = await res.json();
-      if (tracks !== undefined) {
-        setTracks(tracks);
-        if (!listName) {
-          setPlaylistName(tracks[0]?.album?.name);
-        }
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  }, [apiUrl]);
-
+  const pageTitle = playlistName ? `${playlistName} | MusicVideo` : 'Canciones destacadas | MusicVideo';
+  const pageDescription = playlistName
+    ? `Explora las canciones de la playlist ${playlistName} en MusicVideo.`
+    : 'Explora las canciones de tus playlists de Spotify en MusicVideo.';
 
   useEffect(() => {
-    getTracksFromPlayList();
-  }, [getTracksFromPlayList]);
+    const fetchTracks = async () => {
+      try {
+        const searchParams = new URLSearchParams(document.location.search)
+        const Listid = searchParams.get('Listid');
+        const listName = searchParams.get('name');
+        if (listName) {
+          setPlaylistName(decodeURIComponent(listName));
+        }
+        setLoading(true);
+        if (Listid === null) {
+          setLoading(false);
+          return;
+        }
+        const res = await fetch(`${apiUrl}/idlist/${Listid}`);
+        const { tracks } = await res.json();
+        if (tracks !== undefined) {
+          setTracks(tracks);
+          if (!listName) {
+            setPlaylistName(tracks[0]?.album?.name);
+          }
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
+  }, []);
 
 
   const home = () => {
@@ -71,6 +75,15 @@ export default function Tracks() {
 
   return (
     <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content="https://mymusicvideo.netlify.app/tracks" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
       <div className="sidebar">
         <div className="logo">
           <Link href="/">
@@ -96,10 +109,10 @@ export default function Tracks() {
         <div className="policies">
           <ul>
             <li>
-              <a href="#">Cookies</a>
+              <button type="button" className="nav-button muted">Cookies</button>
             </li>
             <li>
-              <a href="#">Privacy</a>
+              <button type="button" className="nav-button muted">Privacy</button>
             </li>
           </ul>
         </div>

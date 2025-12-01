@@ -9,26 +9,26 @@ export default function TracksControl(props: tracksControlProps) {
   const [tracks, setTracks] = useState<Track[]>();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
 
-  const getTracksFromPlayList = async () => {
-    try {
-      setLoading(true);
-      if (!props.ListId) {
-        setLoading(false);
-        return;
-      }
-      const res = await fetch(`${apiUrl}/idlist/${props.ListId}`);
-      const { tracks } = await res.json();
-      setTracks(tracks);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getTracksFromPlayList();
-  }, []);
+    const fetchTracks = async () => {
+      try {
+        setLoading(true);
+        if (!props.ListId) {
+          setLoading(false);
+          return;
+        }
+        const res = await fetch(`${apiUrl}/idlist/${props.ListId}`);
+        const { tracks } = await res.json();
+        setTracks(tracks);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
+  }, [apiUrl, props.ListId]);
 
   if (isLoading) {
     return <Loading />;

@@ -57,6 +57,11 @@ body {
   color: #ffffff;
 }
 
+.sidebar .navigation ul li button.nav-button.muted {
+  color: #8a8a8a;
+  cursor: default;
+}
+
 .sidebar .navigation ul li a:hover,
 .sidebar .navigation ul li a:active,
 .sidebar .navigation ul li a:focus {
