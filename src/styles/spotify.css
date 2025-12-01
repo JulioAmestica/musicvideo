@@ -16,6 +16,7 @@ body {
   width: 196px;
   background-color: #000000;
   padding: 24px;
+  z-index: 12;
 }
 
 .sidebar .logo img {
@@ -114,6 +115,7 @@ body {
 .main-container {
   margin-left: 245px;
   margin-bottom: 100px;
+  min-height: 100vh;
 }
 
 .topbar {
@@ -218,7 +220,7 @@ body {
 }
 
 .spotify-playlists h2 {
-  color: #ffffff;
+  color: #111111;
   font-size: 22px;
   margin-bottom: 20px;
 }
@@ -535,4 +537,211 @@ body {
   border: 0px;
   border-radius: 40px;
   cursor: pointer;
+}
+
+/* Responsive layout */
+@media (max-width: 1080px) {
+  .main-container {
+    margin-left: 220px;
+    padding-right: 16px;
+  }
+
+  .topbar {
+    padding: 12px 18px;
+  }
+
+  .playlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    background-color: #f7f7f7;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #111;
+  }
+
+  .sidebar .logo img {
+    width: 110px;
+  }
+
+  .sidebar .navigation ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .sidebar .navigation ul li {
+    padding: 0;
+  }
+
+  .sidebar .navigation ul li button.nav-button {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .sidebar .navigation ul li .fa {
+    margin-right: 6px;
+  }
+
+  .sidebar .policies {
+    position: static;
+    margin-left: auto;
+  }
+
+  .sidebar .policies ul {
+    display: flex;
+    gap: 8px;
+  }
+
+  .sidebar .policies ul li {
+    padding: 0;
+  }
+
+  .main-container {
+    margin-left: 0;
+    margin-bottom: 60px;
+    padding: 0 12px 32px;
+  }
+
+  .topbar {
+    margin-top: 12px;
+    border-radius: 12px;
+    background-color: #0e0e0e;
+    padding: 12px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .topbar .prev-next-buttons button {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  .topbar .navbar button {
+    min-width: auto;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .spotify-playlists {
+    padding: 18px 4px;
+  }
+
+  .playlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .spotify-playlists .list .item {
+    padding: 10px;
+  }
+
+  .track-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .track-card {
+    grid-template-columns: 64px 1fr;
+    grid-template-rows: auto auto;
+    align-items: flex-start;
+    row-gap: 8px;
+  }
+
+  .track-cover {
+    width: 64px;
+    height: 64px;
+  }
+
+  .track-meta {
+    min-width: 0;
+  }
+
+  .track-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .track-duration {
+    order: -1;
+  }
+
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .sidebar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sidebar .navigation ul {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .sidebar .policies ul {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar .navbar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .topbar .navbar ul {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .playlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .spotify-playlists .list .item h4 {
+    white-space: normal;
+  }
+
+  .track-card {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .track-cover {
+    width: 56px;
+    height: 56px;
+  }
+
+  .btn-icon {
+    width: 38px;
+    height: 38px;
+  }
 }
