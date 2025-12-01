@@ -1,8 +1,40 @@
-import React, { Component } from 'react'
-import TrackControl from "./trackcontrol"
+import React, { useEffect, useState } from 'react';
+import TrackControl from "./trackcontrol";
+import Loading from "./loading";
+import { Track } from 'spotify-web-api-ts/types/types/SpotifyObjects';
 
 export default function TracksControl(props: tracksControlProps) {
-  if (props.tracks == null) {
+  
+  const [isLoading, setLoading] = useState(false);
+  const [tracks, setTracks] = useState<Track[]>();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
+
+  const getTracksFromPlayList = async () => {
+    try {
+      setLoading(true);
+      if (!props.ListId) {
+        setLoading(false);
+        return;
+      }
+      const res = await fetch(`${apiUrl}/idlist/${props.ListId}`);
+      const { tracks } = await res.json();
+      setTracks(tracks);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getTracksFromPlayList();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (tracks == null) {
     return (
       <></>
     )
@@ -10,18 +42,23 @@ export default function TracksControl(props: tracksControlProps) {
   else {
     try {
       return (
+
         <>
-            {props.tracks.tracks.map((track) => (
-            <TrackControl track={track.track} id={track.track.id}></TrackControl>))}
+          {tracks.map((track: Track) => (
+            <TrackControl key={track.id} track={track} id={track.id}></TrackControl>)
+
+          )
+          }
         </>
+
       )
     }
     catch (err) {
-      console.error("trackscontrol ==>"+err);
+      console.error("trackscontrol ==>" + err);
     }
   }
 }
 
 interface tracksControlProps {
-  tracks?: any,
+  ListId?: any,
 }

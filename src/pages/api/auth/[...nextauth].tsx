@@ -1,28 +1,28 @@
-import NextAuth, { Session } from 'next-auth';
-import { AdapterUser } from 'next-auth/adapters';
-import { JWTOptions } from 'next-auth/jwt';
-import SpotifyProvider from 'next-auth/providers/spotify';
-const queryString = require('querystring');
+import NextAuth from "next-auth";
+import SpotifyProvider from "next-auth/providers/spotify";
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     SpotifyProvider({
-      authorization: {
-        url: 'https://accounts.spotify.com/authorize?scope=user-read-email,user-read-private,user-library-read,user-read-playback-state,playlist-read-private,playlist-read-collaborative'
-      },
-      clientId: process.env.SPOTIFY_CLIENT_ID as string,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
+      clientId: process.env.SPOTIFY_CLIENT_ID!,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
+      authorization:
+        "https://accounts.spotify.com/authorize?scope=playlist-read-private%20playlist-read-collaborative",
     }),
   ],
   callbacks: {
     async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.refresh_token;
-      }
+      if (account?.refresh_token) token.refreshToken = account.refresh_token;
+      if (account?.access_token) token.accessToken = account.access_token;
       return token;
     },
-    async session({ session }) {
-      return session
+    // Pass refresh token into the session object
+    async session({ session, token }) {
+      session.accessToken = token.accessToken as string;
+      session.refreshToken = token.refreshToken as string;
+      session.name = token.name as string; // nombre de usuario
+      return session;
     },
   },
 });

@@ -6,6 +6,10 @@
 .pnp.js
 /.vscode
 *.code-workspace
+node_modules/
+.vscode/
+.next/
+/.next
 
 # testing
 /coverage
@@ -20,6 +24,7 @@
 # misc
 .DS_Store
 *.pem
+**/.*/
 
 # debug
 npm-debug.log*
@@ -35,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local Netlify folder
+.netlify
