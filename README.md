@@ -107,14 +107,6 @@ Open:
 | `/api/idlist/[idlist]` | Returns tracks for a playlist |
 | `/api/youtube?q=<query>` | Searches a related YouTube video |
 
-## Screenshots
-
-Add screenshots here:
-
-```md
-![Playlist view](docs/screenshots/playlists.png)
-![Tracks view](docs/screenshots/tracks.png)
-```
 
 ## Known Limitations
 
