@@ -1,38 +1,132 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MusicVideo
+  
+A Next.js app for exploring Spotify playlists and tracks, with quick access to related music videos on YouTube.
+
+## Live Demo
+
+https://mymusicvideo.netlify.app/
+
+> The app requires Spotify authentication to display private or collaborative playlists.
+
+## Features
+
+- Spotify login using NextAuth.
+- Lists the authenticated user's Spotify playlists.
+- Displays tracks from a selected playlist.
+- Opens tracks directly in Spotify.
+- Searches related videos on YouTube.
+- Responsive Spotify-inspired UI.
+
+## Tech Stack
+
+- Next.js 13
+- React 18
+- TypeScript
+- NextAuth.js
+- Spotify Web API
+- scrape-youtube
+- Tailwind CSS and custom CSS
+- Netlify
+
+## Architecture
+
+```mermaid
+flowchart LR
+    User[User Browser] --> App[Next.js UI]
+    App --> Auth[NextAuth Spotify Provider]
+    App --> API[Next.js API Routes]
+    API --> Spotify[Spotify Web API]
+    API --> YouTube[YouTube Search]
+    Spotify --> API
+    YouTube --> API
+    API --> App
+```
+
+The UI calls internal Next.js API routes instead of calling Spotify directly from the browser. The server-side API retrieves the user's refresh token from the NextAuth session and uses it to request playlists and tracks.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+- Node.js 18+
+- npm
+- Spotify Developer account
+
+### Spotify Setup
+
+Create an app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+
+For local development, add this redirect URI:
+
+```text
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For production, configure your deployed callback URL:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```text
+<https://mymusicvideo.netlify.app/api/auth/callback/spotify>
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Environment Variables
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Create a `.env.local` file in the project root:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```env
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_s...cret
+NEXTAUTH_SECRET=your_n...cret
+NEXTAUTH_URL=<http://localhost:3000>
+NEXT_PUBLIC_API_URL=/api
+```
 
-## Learn More
+For production, configure the same variables in your hosting provider.
 
-To learn more about Next.js, take a look at the following resources:
+### Run Locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+git clone <https://github.com/JulioAmestica/musicvideo.git>
+cd musicvideo
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Open:
 
-## Deploy on Vercel
+```text
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Main Routes
+
+| Route | Description |
+|---|---|
+| `/` | Login and playlist browser |
+| `/tracks?Listid=<playlist-id>&name=<playlist-name>` | Tracks for a selected playlist |
+| `/api/playlists` | Returns Spotify playlists for the authenticated user |
+| `/api/idlist/[idlist]` | Returns tracks for a playlist |
+| `/api/youtube?q=<query>` | Searches a related YouTube video |
+
+## Screenshots
+
+Add screenshots here:
+
+```md
+![Playlist view](docs/screenshots/playlists.png)
+![Tracks view](docs/screenshots/tracks.png)
+```
+
+## Known Limitations
+
+- Requires Spotify authentication.
+- YouTube matching is based on search results and may not always return the official video.
+- No persistent database is used.
+- Error handling and automated tests are limited.
+
+## Status
+
+Personal demo project. Core Spotify playlist browsing works; YouTube lookup is experimental and depends on third-party search results.
+
+## License
+
+No license has been specified yet.
